@@ -12,6 +12,7 @@ Portale statico ufficiale di Fracapu Apps.
 - `privacy/zefilandya-academy/fr/index.html`: Privacy Policy di Zefilandya Academy in francese.
 - `privacy/zefilandya-academy/es/index.html`: Privacy Policy di Zefilandya Academy in spagnolo.
 - `privacy/zefilandya-academy/pt/index.html`: Privacy Policy di Zefilandya Academy in portoghese.
+- `support/index.html`: pagina supporto con indirizzo email ufficiale e indicazioni per inviare richieste di assistenza.
 - `styles.css`: stili globali, variabili CSS e componenti riutilizzabili per sezioni, pulsanti e schede app.
 - `assets/.gitkeep`: cartella predisposta per futuri screenshot, immagini promozionali e asset delle applicazioni.
 
