@@ -405,6 +405,15 @@ p {
     linear-gradient(135deg, #1266f1, #7657ff);
 }
 
+.app-cover {
+  display: block;
+  width: 4.25rem;
+  height: 4.25rem;
+  object-fit: contain;
+  border-radius: var(--radius-sm);
+  filter: drop-shadow(0 8px 14px rgba(8, 26, 51, 0.12));
+}
+
 .badge {
   display: inline-flex;
   min-height: 2rem;
@@ -841,6 +850,11 @@ p {
     width: 100%;
     justify-content: center;
     text-align: center;
+  }
+
+  .app-cover {
+    width: 3.75rem;
+    height: 3.75rem;
   }
 
   .nav-list li:last-child:nth-child(odd) {
