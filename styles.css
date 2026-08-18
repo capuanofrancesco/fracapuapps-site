@@ -442,6 +442,16 @@ p {
   font-weight: 700;
 }
 
+.app-card-actions {
+  display: grid;
+  gap: 0.75rem;
+  margin-top: auto;
+}
+
+.app-card-actions .button-secondary {
+  margin-top: 0;
+}
+
 .status-dot {
   width: 0.65rem;
   height: 0.65rem;
@@ -607,6 +617,12 @@ p {
 .app-hero-status {
   margin-bottom: 1.5rem;
   color: rgba(255, 255, 255, 0.84);
+}
+
+.app-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem;
 }
 
 .zefi-preview {
@@ -841,6 +857,27 @@ p {
   border-radius: 999px;
 }
 
+.download-section {
+  background: linear-gradient(180deg, var(--color-white), var(--color-surface));
+}
+
+.download-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 2rem;
+  align-items: center;
+}
+
+.download-layout .section-heading {
+  margin-bottom: 0;
+}
+
+.download-layout .button-primary {
+  color: var(--color-white);
+  background: var(--color-navy);
+  box-shadow: 0 14px 32px rgba(8, 26, 51, 0.16);
+}
+
 /* Privacy pages */
 .privacy-hero h1 {
   max-width: 13ch;
@@ -1068,6 +1105,7 @@ p {
   .app-hero-layout,
   .privacy-hero-layout,
   .split-layout,
+  .download-layout,
   .support-layout {
     grid-template-columns: 1fr;
   }
@@ -1101,6 +1139,10 @@ p {
     justify-items: start;
   }
 
+  .download-layout {
+    justify-items: start;
+  }
+
   .privacy-hero h1 {
     font-size: 3rem;
   }
@@ -1120,6 +1162,15 @@ p {
   }
 
   .support-link {
+    width: 100%;
+  }
+
+  .app-hero-actions,
+  .download-layout .button-primary {
+    width: 100%;
+  }
+
+  .app-hero-actions .button {
     width: 100%;
   }
 
