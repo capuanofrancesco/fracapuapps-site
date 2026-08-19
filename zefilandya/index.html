@@ -6,6 +6,13 @@
   <meta name="theme-color" content="#6f2bd8">
   <meta name="robots" content="index,follow">
   <title>Scarica Zefilandya Academy</title>
+  <script>
+    (function () {
+      var ua = navigator.userAgent || '';
+      var inTikTok = /TikTok|musical_ly|musically|Bytedance|BytedanceWebview|zhiliaoapp/i.test(ua);
+      document.documentElement.classList.add(inTikTok ? 'in-tiktok' : 'outside-tiktok');
+    })();
+  </script>
   <style>
     *{box-sizing:border-box}
     html,body{margin:0;padding:0}
@@ -26,120 +33,54 @@
       text-align:center;
     }
     .logo{
-      width:150px;
-      height:150px;
-      display:block;
-      margin:0 auto 12px;
-      border-radius:30px;
-      object-fit:cover;
-      box-shadow:0 10px 26px rgba(81,29,135,.20);
+      width:150px;height:150px;display:block;margin:0 auto 12px;border-radius:30px;
+      object-fit:cover;box-shadow:0 10px 26px rgba(81,29,135,.20)
     }
-    h1{
-      margin:0;
-      font-size:clamp(34px,9vw,50px);
-      line-height:1.02;
-      letter-spacing:-1.5px;
-      color:#271038;
-    }
-    .free{
-      margin:10px 0 24px;
-      font-size:21px;
-      color:#65596c;
-    }
+    h1{margin:0;font-size:clamp(34px,9vw,50px);line-height:1.02;letter-spacing:-1.5px;color:#271038}
+    .free{margin:10px 0 24px;font-size:21px;color:#65596c}
+    .tiktok-only,.browser-only{display:none}
+    .in-tiktok .tiktok-only{display:block}
+    .outside-tiktok .browser-only{display:block}
     .headline{
-      margin:0 0 16px;
-      padding:13px 14px;
-      border-radius:16px;
-      background:#f2e9ff;
-      color:#6125c9;
-      font-size:22px;
-      line-height:1.25;
-      font-weight:900;
+      margin:0 0 16px;padding:14px;border-radius:17px;background:#f2e9ff;color:#6125c9;
+      font-size:22px;line-height:1.25;font-weight:900
+    }
+    .success-head{
+      margin:0 0 16px;padding:15px;border-radius:17px;background:#e8fff2;color:#087443;
+      font-size:23px;line-height:1.25;font-weight:950
     }
     .step{
-      display:grid;
-      grid-template-columns:58px 1fr;
-      gap:13px;
-      align-items:center;
-      text-align:left;
-      margin:12px 0;
-      padding:17px 15px;
-      border:2px solid #eadfff;
-      border-radius:20px;
-      background:#fbf9ff;
+      display:grid;grid-template-columns:58px 1fr;gap:13px;align-items:center;text-align:left;
+      margin:12px 0;padding:17px 15px;border:2px solid #eadfff;border-radius:20px;background:#fbf9ff
     }
     .num{
-      width:54px;
-      height:54px;
-      border-radius:50%;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      background:#6f2bd8;
-      color:#fff;
-      font-size:28px;
-      font-weight:900;
+      width:54px;height:54px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+      background:#6f2bd8;color:#fff;font-size:28px;font-weight:900
     }
-    .step-text{
-      font-size:22px;
-      line-height:1.25;
-      font-weight:850;
-      color:#28143a;
-    }
-    .dots{
-      display:inline-block;
-      font-size:29px;
-      letter-spacing:3px;
-      line-height:1;
-      color:#6f2bd8;
-      vertical-align:-2px;
-    }
-    .browser-label{
-      color:#6f2bd8;
-      font-weight:950;
-    }
-    .already{
-      margin:18px 0 8px;
-      font-size:16px;
-      line-height:1.4;
-      color:#756a7d;
-      font-weight:700;
-    }
+    .num.green{background:#079455}
+    .step-text{font-size:22px;line-height:1.25;font-weight:850;color:#28143a}
+    .dots{display:inline-block;font-size:29px;letter-spacing:3px;line-height:1;color:#6f2bd8;vertical-align:-2px}
+    .browser-label{color:#6f2bd8;font-weight:950}
+    .hint{margin:16px 4px 0;font-size:17px;line-height:1.4;color:#756a7d;font-weight:750}
     .play{
-      display:block;
-      width:100%;
-      margin-top:14px;
-      padding:20px 16px;
-      border-radius:20px;
-      background:#079455;
-      color:#fff;
-      text-decoration:none;
-      font-size:24px;
-      line-height:1.15;
-      font-weight:950;
-      box-shadow:0 10px 24px rgba(7,148,85,.22);
+      display:block;width:100%;margin:14px 0 0;padding:22px 16px;border-radius:20px;background:#079455;
+      color:#fff;text-decoration:none;font-size:25px;line-height:1.15;font-weight:950;
+      box-shadow:0 10px 24px rgba(7,148,85,.24)
     }
+    .arrow{font-size:34px;line-height:1;margin:10px 0 0;color:#079455;font-weight:950}
     .final{
-      margin:18px 4px 2px;
-      padding:15px;
-      border-radius:17px;
-      background:#fff7d9;
-      color:#59450d;
-      font-size:19px;
-      line-height:1.35;
-      font-weight:850;
+      margin:16px 4px 2px;padding:17px;border-radius:17px;background:#fff7d9;color:#59450d;
+      font-size:20px;line-height:1.35;font-weight:900
     }
-    .tiny{
-      margin:16px 0 0;
-      font-size:13px;
-      color:#9a909f;
-    }
+    .fallback{margin-top:14px;font-size:14px;line-height:1.4;color:#82768a}
+    .fallback a{color:#6f2bd8;font-weight:800}
+    .tiny{margin:16px 0 0;font-size:13px;color:#9a909f}
     @media (max-width:380px){
       .logo{width:125px;height:125px}
       .step{grid-template-columns:50px 1fr;padding:14px 12px}
       .num{width:46px;height:46px;font-size:24px}
       .step-text{font-size:19px}
-      .headline{font-size:20px}
+      .headline,.success-head{font-size:20px}
       .play{font-size:22px}
     }
   </style>
@@ -150,23 +91,44 @@
     <h1>Zefilandya<br>Academy</h1>
     <p class="free">Gratis su Google Play</p>
 
-    <div class="headline">Se sei dentro TikTok, fai questi 2 passaggi:</div>
+    <section class="tiktok-only">
+      <div class="headline">SE SEI ANCORA DENTRO TIKTOK:</div>
 
-    <div class="step">
-      <div class="num">1</div>
-      <div class="step-text">Tocca i <span class="dots">•••</span> <strong>3 puntini in alto a destra</strong>.</div>
-    </div>
+      <div class="step">
+        <div class="num">1</div>
+        <div class="step-text">Tocca i <span class="dots">•••</span> <strong>3 puntini in alto a destra</strong>.</div>
+      </div>
 
-    <div class="step">
-      <div class="num">2</div>
-      <div class="step-text">Nel menu che si apre, tocca <span class="browser-label">“Apri nel browser”</span>.</div>
-    </div>
+      <div class="step">
+        <div class="num">2</div>
+        <div class="step-text">Tocca <span class="browser-label">“Apri nel browser”</span>.</div>
+      </div>
 
-    <p class="already">Quando questa pagina si riapre nel browser del telefono, premi qui:</p>
+      <p class="hint">Si aprirà questa stessa pagina nel browser del telefono. Lì comparirà il pulsante per Google Play.</p>
+    </section>
 
-    <a class="play" href="https://play.google.com/store/apps/details?id=com.capuanofra81.sofiaacademy">▶ APRI GOOGLE PLAY</a>
+    <section class="browser-only">
+      <div class="success-head">✓ PERFETTO, ORA SEI FUORI DA TIKTOK</div>
 
-    <div class="final">Ultimo passaggio: nel Play Store tocca <strong>“Installa”</strong>.</div>
+      <div class="step">
+        <div class="num green">1</div>
+        <div class="step-text">Adesso tocca il pulsante verde qui sotto.</div>
+      </div>
+
+      <div class="arrow">↓</div>
+
+      <a class="play" href="intent://details?id=com.capuanofra81.sofiaacademy#Intent;scheme=market;package=com.android.vending;S.browser_fallback_url=https%3A%2F%2Fplay.google.com%2Fstore%2Fapps%2Fdetails%3Fid%3Dcom.capuanofra81.sofiaacademy;end">APRI ZEFILANDYA<br>SU GOOGLE PLAY</a>
+
+      <div class="step">
+        <div class="num green">2</div>
+        <div class="step-text">Quando si apre il Play Store, tocca <strong>“Installa”</strong>.</div>
+      </div>
+
+      <div class="final">Fatto. Non devi cercare nulla e non devi copiare nessun nome.</div>
+
+      <p class="fallback">Se il pulsante verde non apre il Play Store, <a href="https://play.google.com/store/apps/details?id=com.capuanofra81.sofiaacademy">tocca qui per aprire Google Play sul web</a>.</p>
+    </section>
+
     <p class="tiny">Zefilandya Academy · Fracapu Apps</p>
   </main>
 </body>
