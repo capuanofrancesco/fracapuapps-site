@@ -91,6 +91,20 @@
       color:#6f2bd8;
       font-weight:950;
     }
+    .play-button{
+      display:block;
+      width:100%;
+      margin-top:26px;
+      padding:22px 18px;
+      border-radius:20px;
+      background:#6f2bd8;
+      color:#fff;
+      text-decoration:none;
+      font-size:24px;
+      line-height:1.2;
+      font-weight:950;
+      box-shadow:0 12px 28px rgba(111,43,216,.28);
+    }
     #tiktok-page{display:none}
     #normal-page{display:none}
     @media (max-width:380px){
@@ -98,6 +112,7 @@
       .step{grid-template-columns:50px 1fr;padding:15px 12px}
       .num{width:46px;height:46px;font-size:24px}
       .step-text{font-size:19px}
+      .play-button{font-size:21px}
     }
   </style>
 </head>
@@ -120,29 +135,16 @@
 
   <main id="normal-page" class="card">
     <img class="logo" src="../assets/zefilandya-playstore-icon.png" alt="Logo Zefilandya Academy">
-    <h1>Zefilandya<br>Academy</h1>
-    <p class="free">Gratis su Google Play</p>
-
-    <div class="step">
-      <div class="num">1</div>
-      <div class="step-text">Tocca i <span class="dots">•••</span> <strong>3 puntini in alto a destra</strong>.</div>
-    </div>
-
-    <div class="step">
-      <div class="num">2</div>
-      <div class="step-text">Nel menu che si apre, tocca <span class="browser-label">“Apri nel browser”</span>.</div>
-    </div>
+    <a class="play-button" href="https://play.google.com/store/apps/details?id=com.capuanofra81.sofiaacademy">APRI ZEFILANDYA SU GOOGLE PLAY</a>
   </main>
 
   <script>
     (function(){
       var ua=(navigator.userAgent||'').toLowerCase();
-      var ref=(document.referrer||'').toLowerCase();
       var isTikTok = ua.indexOf('tiktok') !== -1 ||
                      ua.indexOf('musical_ly') !== -1 ||
                      ua.indexOf('bytedance') !== -1 ||
-                     ua.indexOf('aweme') !== -1 ||
-                     ref.indexOf('tiktok.com') !== -1;
+                     ua.indexOf('aweme') !== -1;
 
       document.getElementById(isTikTok ? 'tiktok-page' : 'normal-page').style.display='block';
     })();
