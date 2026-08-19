@@ -146,6 +146,14 @@
                      ua.indexOf('bytedance') !== -1 ||
                      ua.indexOf('aweme') !== -1;
 
+      if(isTikTok){
+        try{
+          var u=new URL(window.location.href);
+          u.searchParams.set('cb',Date.now().toString());
+          history.replaceState(null,'',u.pathname+'?'+u.searchParams.toString());
+        }catch(e){}
+      }
+
       document.getElementById(isTikTok ? 'tiktok-page' : 'normal-page').style.display='block';
     })();
   </script>
