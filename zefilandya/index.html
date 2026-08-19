@@ -91,20 +91,105 @@
       color:#6f2bd8;
       font-weight:950;
     }
-    .play-button{
-      display:block;
-      width:100%;
-      margin-top:26px;
-      padding:22px 18px;
-      border-radius:20px;
-      background:#6f2bd8;
-      color:#fff;
-      text-decoration:none;
-      font-size:24px;
-      line-height:1.2;
-      font-weight:950;
-      box-shadow:0 12px 28px rgba(111,43,216,.28);
+
+    /* Pagina mostrata nel browser vero */
+    .normal-card{
+      padding:30px 22px 34px;
+      overflow:hidden;
+      position:relative;
     }
+    .normal-card::before{
+      content:"";
+      position:absolute;
+      width:260px;
+      height:260px;
+      border-radius:50%;
+      background:rgba(111,43,216,.08);
+      top:-150px;
+      right:-120px;
+      pointer-events:none;
+    }
+    .normal-card .logo{
+      width:165px;
+      height:165px;
+      margin-bottom:18px;
+      position:relative;
+    }
+    .normal-title{
+      margin:0;
+      font-size:clamp(34px,9vw,48px);
+      line-height:1.04;
+      color:#271038;
+      font-weight:950;
+      letter-spacing:-1.4px;
+    }
+    .normal-subtitle{
+      max-width:430px;
+      margin:14px auto 18px;
+      color:#62586a;
+      font-size:19px;
+      line-height:1.4;
+      font-weight:650;
+    }
+    .chips{
+      display:flex;
+      justify-content:center;
+      flex-wrap:wrap;
+      gap:9px;
+      margin:0 0 24px;
+    }
+    .chip{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding:9px 14px;
+      border-radius:999px;
+      background:#f4efff;
+      color:#5d25b5;
+      font-size:15px;
+      font-weight:850;
+    }
+    .download-box{
+      border:2px solid #eadfff;
+      background:linear-gradient(180deg,#fcfaff 0%,#f7f1ff 100%);
+      border-radius:24px;
+      padding:21px 16px 20px;
+    }
+    .download-title{
+      margin:0 0 4px;
+      color:#271038;
+      font-size:24px;
+      font-weight:950;
+    }
+    .download-copy{
+      margin:0 0 14px;
+      color:#756a7d;
+      font-size:16px;
+      line-height:1.35;
+    }
+    .google-play-link{
+      display:inline-block;
+      text-decoration:none;
+      transition:transform .15s ease,filter .15s ease;
+      -webkit-tap-highlight-color:transparent;
+    }
+    .google-play-link:active{
+      transform:scale(.97);
+    }
+    .google-play-badge{
+      display:block;
+      width:min(280px,82vw);
+      height:auto;
+      margin:0 auto;
+      filter:drop-shadow(0 10px 18px rgba(39,16,56,.16));
+    }
+    .developer{
+      margin:19px 0 0;
+      color:#9a90a1;
+      font-size:14px;
+      font-weight:700;
+    }
+
     #tiktok-page{display:none}
     #normal-page{display:none}
     @media (max-width:380px){
@@ -112,7 +197,9 @@
       .step{grid-template-columns:50px 1fr;padding:15px 12px}
       .num{width:46px;height:46px;font-size:24px}
       .step-text{font-size:19px}
-      .play-button{font-size:21px}
+      .normal-card .logo{width:145px;height:145px}
+      .normal-subtitle{font-size:17px}
+      .download-title{font-size:21px}
     }
   </style>
 </head>
@@ -133,9 +220,26 @@
     </div>
   </main>
 
-  <main id="normal-page" class="card">
+  <main id="normal-page" class="card normal-card">
     <img class="logo" src="../assets/zefilandya-playstore-icon.png" alt="Logo Zefilandya Academy">
-    <a class="play-button" href="https://play.google.com/store/apps/details?id=com.capuanofra81.sofiaacademy">APRI ZEFILANDYA SU GOOGLE PLAY</a>
+    <h1 class="normal-title">Zefilandya<br>Academy</h1>
+    <p class="normal-subtitle">Giochi, quiz e avventure educative in un mondo colorato pensato per imparare divertendosi.</p>
+
+    <div class="chips">
+      <span class="chip">✓ Gratis</span>
+      <span class="chip">Android</span>
+      <span class="chip">Google Play</span>
+    </div>
+
+    <section class="download-box">
+      <p class="download-title">Scarica Zefilandya Academy</p>
+      <p class="download-copy">Tocca il pulsante ufficiale qui sotto per aprire la scheda dell'app.</p>
+      <a class="google-play-link" href="https://play.google.com/store/apps/details?id=com.capuanofra81.sofiaacademy" aria-label="Scarica Zefilandya Academy da Google Play">
+        <img class="google-play-badge" src="https://play.google.com/intl/en_us/badges/static/images/badges/it_badge_web_generic.png" alt="Disponibile su Google Play">
+      </a>
+    </section>
+
+    <p class="developer">Zefilandya Academy · Fracapu Apps</p>
   </main>
 
   <script>
