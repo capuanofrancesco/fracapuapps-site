@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#6f2bd8">
   <meta name="robots" content="index,follow">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
   <title>Zefilandya Academy</title>
   <style>
     *{box-sizing:border-box}
@@ -88,6 +91,8 @@
       color:#6f2bd8;
       font-weight:950;
     }
+    #tiktok-page{display:none}
+    #normal-page{display:none}
     @media (max-width:380px){
       .logo{width:125px;height:125px}
       .step{grid-template-columns:50px 1fr;padding:15px 12px}
@@ -97,7 +102,7 @@
   </style>
 </head>
 <body>
-  <main class="card">
+  <main id="tiktok-page" class="card">
     <img class="logo" src="../assets/zefilandya-playstore-icon.png" alt="Logo Zefilandya Academy">
     <h1>Zefilandya<br>Academy</h1>
     <p class="free">Gratis su Google Play</p>
@@ -112,5 +117,35 @@
       <div class="step-text">Nel menu che si apre, tocca <span class="browser-label">“Apri nel browser”</span>.</div>
     </div>
   </main>
+
+  <main id="normal-page" class="card">
+    <img class="logo" src="../assets/zefilandya-playstore-icon.png" alt="Logo Zefilandya Academy">
+    <h1>Zefilandya<br>Academy</h1>
+    <p class="free">Gratis su Google Play</p>
+
+    <div class="step">
+      <div class="num">1</div>
+      <div class="step-text">Tocca i <span class="dots">•••</span> <strong>3 puntini in alto a destra</strong>.</div>
+    </div>
+
+    <div class="step">
+      <div class="num">2</div>
+      <div class="step-text">Nel menu che si apre, tocca <span class="browser-label">“Apri nel browser”</span>.</div>
+    </div>
+  </main>
+
+  <script>
+    (function(){
+      var ua=(navigator.userAgent||'').toLowerCase();
+      var ref=(document.referrer||'').toLowerCase();
+      var isTikTok = ua.indexOf('tiktok') !== -1 ||
+                     ua.indexOf('musical_ly') !== -1 ||
+                     ua.indexOf('bytedance') !== -1 ||
+                     ua.indexOf('aweme') !== -1 ||
+                     ref.indexOf('tiktok.com') !== -1;
+
+      document.getElementById(isTikTok ? 'tiktok-page' : 'normal-page').style.display='block';
+    })();
+  </script>
 </body>
 </html>
