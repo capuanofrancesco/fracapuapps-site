@@ -2,15 +2,74 @@
 <html lang="it">
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta http-equiv="refresh" content="0; url=https://play.google.com/store/apps/details?id=com.capuanofra81.sofiaacademy">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#6f2bd8">
     <link rel="canonical" href="https://play.google.com/store/apps/details?id=com.capuanofra81.sofiaacademy">
     <title>Zefilandya Academy</title>
+    <style>
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        background: linear-gradient(180deg, #f4ecff 0%, #ffffff 55%);
+        color: #23172f;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 24px;
+      }
+      .card {
+        width: min(520px, 100%);
+        background: #fff;
+        border-radius: 28px;
+        box-shadow: 0 18px 50px rgba(74, 33, 112, .16);
+        padding: 30px 24px;
+        text-align: center;
+      }
+      h1 { margin: 0 0 10px; font-size: 32px; }
+      p { margin: 0 0 22px; font-size: 17px; line-height: 1.45; color: #5b5063; }
+      .primary, .secondary {
+        display: block;
+        width: 100%;
+        border-radius: 18px;
+        padding: 17px 18px;
+        font-size: 18px;
+        font-weight: 750;
+        text-decoration: none;
+        margin-top: 12px;
+      }
+      .primary { background: #6f2bd8; color: white; }
+      .secondary { background: #f1e8ff; color: #5720aa; }
+      .hint {
+        margin-top: 20px;
+        font-size: 14px;
+        color: #756b7b;
+      }
+      .tiny { margin-top: 10px; font-size: 12px; color: #9a919f; }
+    </style>
   </head>
   <body>
-    <p><a href="https://play.google.com/store/apps/details?id=com.capuanofra81.sofiaacademy">Apri Zefilandya Academy su Google Play</a></p>
+    <main class="card">
+      <h1>Zefilandya Academy</h1>
+      <p>Apri la pagina ufficiale dell'app nel Google Play Store.</p>
+
+      <a id="play-store" class="primary" href="#">Apri nel Play Store</a>
+      <a class="secondary" href="https://play.google.com/store/apps/details?id=com.capuanofra81.sofiaacademy">Apri la versione web</a>
+
+      <p class="hint">Se TikTok blocca l'apertura del Play Store, usa il menu ⋯ del browser TikTok e scegli “Apri nel browser”, poi tocca di nuovo “Apri nel Play Store”.</p>
+      <div class="tiny">Pacchetto: com.capuanofra81.sofiaacademy</div>
+    </main>
+
     <script>
-      window.location.replace("https://play.google.com/store/apps/details?id=com.capuanofra81.sofiaacademy");
+      const webUrl = 'https://play.google.com/store/apps/details?id=com.capuanofra81.sofiaacademy';
+      const fallback = encodeURIComponent(webUrl);
+      const intentUrl = 'intent://details?id=com.capuanofra81.sofiaacademy#Intent;scheme=market;package=com.android.vending;S.browser_fallback_url=' + fallback + ';end';
+
+      document.getElementById('play-store').addEventListener('click', function (event) {
+        event.preventDefault();
+        window.location.href = intentUrl;
+      });
     </script>
   </body>
 </html>
