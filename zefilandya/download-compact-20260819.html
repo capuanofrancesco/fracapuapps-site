@@ -158,12 +158,12 @@
         var payload={source:eventSource};
         if(eventFlowId) payload.flow_id=eventFlowId;
         try{
-          fetch('https://wylttxfpmlakfdbpulxd.supabase.co/rest/v1/zefilandya_play_clicks?on_conflict=source,flow_id',{
+          fetch('https://wylttxfpmlakfdbpulxd.supabase.co/rest/v1/zefilandya_play_clicks',{
             method:'POST',
             headers:{
               'apikey':'sb_publishable_KNbQ8LNvaUsZO1sZfhSARw_z_8-Do5T',
               'Content-Type':'application/json',
-              'Prefer':'resolution=ignore-duplicates,return=minimal'
+              'Prefer':'return=minimal'
             },
             body:JSON.stringify(payload),
             keepalive:true
@@ -171,12 +171,16 @@
         }catch(e){}
       }
 
-      if(source==='tiktok' && !isTikTok){
-        track('tiktok_browser',flowId || null);
+      if(source==='tiktok' && !isTikTok && flowId){
+        track('tiktok_browser',flowId);
       }
 
       button.addEventListener('click',function(){
-        track(source,source==='tiktok' ? (flowId || null) : null);
+        if(source==='tiktok' && flowId){
+          track('tiktok',flowId);
+        }else{
+          track('amici',null);
+        }
       });
     })();
   </script>
