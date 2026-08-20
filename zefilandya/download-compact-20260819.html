@@ -147,60 +147,36 @@
 
       var params=new URLSearchParams(window.location.search);
       var source=(params.get('src')||'').toLowerCase()==='tiktok' ? 'tiktok' : 'amici';
+      var flowId=(params.get('fid')||'').trim();
       var ua=(navigator.userAgent||'').toLowerCase();
       var isTikTok = ua.indexOf('tiktok') !== -1 ||
                      ua.indexOf('musical_ly') !== -1 ||
                      ua.indexOf('bytedance') !== -1 ||
                      ua.indexOf('aweme') !== -1;
 
-      function track(eventSource){
+      function track(eventSource,eventFlowId){
+        var payload={source:eventSource};
+        if(eventFlowId) payload.flow_id=eventFlowId;
         try{
-          fetch('https://wylttxfpmlakfdbpulxd.supabase.co/rest/v1/zefilandya_play_clicks',{
+          fetch('https://wylttxfpmlakfdbpulxd.supabase.co/rest/v1/zefilandya_play_clicks?on_conflict=source,flow_id',{
             method:'POST',
             headers:{
               'apikey':'sb_publishable_KNbQ8LNvaUsZO1sZfhSARw_z_8-Do5T',
               'Content-Type':'application/json',
-              'Prefer':'return=minimal'
+              'Prefer':'resolution=ignore-duplicates,return=minimal'
             },
-            body:JSON.stringify({source:eventSource}),
+            body:JSON.stringify(payload),
             keepalive:true
           }).catch(function(){});
         }catch(e){}
       }
 
-      function trackRecent(eventSource,storageKey,windowMs){
-        var now=Date.now();
-        var canStore=true;
-        try{
-          var previous=parseInt(localStorage.getItem(storageKey)||'0',10)||0;
-          if(now-previous < windowMs) return;
-          localStorage.setItem(storageKey,String(now));
-        }catch(e){ canStore=false; }
-
-        try{
-          fetch('https://wylttxfpmlakfdbpulxd.supabase.co/rest/v1/zefilandya_play_clicks',{
-            method:'POST',
-            headers:{
-              'apikey':'sb_publishable_KNbQ8LNvaUsZO1sZfhSARw_z_8-Do5T',
-              'Content-Type':'application/json',
-              'Prefer':'return=minimal'
-            },
-            body:JSON.stringify({source:eventSource}),
-            keepalive:true
-          }).catch(function(){
-            if(canStore){ try{ localStorage.removeItem(storageKey); }catch(e){} }
-          });
-        }catch(e){
-          if(canStore){ try{ localStorage.removeItem(storageKey); }catch(err){} }
-        }
-      }
-
       if(source==='tiktok' && !isTikTok){
-        trackRecent('tiktok_browser','zefi_tiktok_browser_last',10000);
+        track('tiktok_browser',flowId || null);
       }
 
       button.addEventListener('click',function(){
-        track(source);
+        track(source,source==='tiktok' ? (flowId || null) : null);
       });
     })();
   </script>
