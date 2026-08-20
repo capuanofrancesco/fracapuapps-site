@@ -48,46 +48,45 @@
 
   <script>
     (function(){
-      var TRACK='https://wylttxfpmlakfdbpulxd.supabase.co/functions/v1/zefilandya-track';
       var button=document.getElementById('play-store-button');
       if(!button) return;
+
       var params=new URLSearchParams(window.location.search);
       var source=(params.get('src')||'').toLowerCase()==='tiktok' ? 'tiktok' : 'amici';
       var flowId=(params.get('fid')||'').trim();
       var ua=(navigator.userAgent||'').toLowerCase();
-      var isTikTok = ua.indexOf('tiktok')!==-1 || ua.indexOf('musical_ly')!==-1 || ua.indexOf('bytedance')!==-1 || ua.indexOf('aweme')!==-1;
+      var isTikTok = ua.indexOf('tiktok') !== -1 ||
+                     ua.indexOf('musical_ly') !== -1 ||
+                     ua.indexOf('bytedance') !== -1 ||
+                     ua.indexOf('aweme') !== -1;
 
-      function pixel(eventSource,eventFlowId){
-        if(!eventFlowId) return;
-        try{
-          window.__zefiPixels=window.__zefiPixels||[];
-          var img=new Image();
-          window.__zefiPixels.push(img);
-          var cleanup=function(){var i=window.__zefiPixels.indexOf(img);if(i>=0)window.__zefiPixels.splice(i,1)};
-          img.onload=cleanup; img.onerror=cleanup;
-          img.src=TRACK+'?s='+encodeURIComponent(eventSource)+'&fid='+encodeURIComponent(eventFlowId)+'&r='+Date.now();
-          setTimeout(cleanup,8000);
-        }catch(e){}
-      }
-
-      function amiciTrack(){
+      function track(eventSource,eventFlowId){
+        var payload={source:eventSource};
+        if(eventFlowId) payload.flow_id=eventFlowId;
         try{
           fetch('https://wylttxfpmlakfdbpulxd.supabase.co/rest/v1/zefilandya_play_clicks',{
             method:'POST',
-            headers:{'apikey':'sb_publishable_KNbQ8LNvaUsZO1sZfhSARw_z_8-Do5T','Content-Type':'application/json','Prefer':'return=minimal'},
-            body:JSON.stringify({source:'amici'}),
+            headers:{
+              'apikey':'sb_publishable_KNbQ8LNvaUsZO1sZfhSARw_z_8-Do5T',
+              'Content-Type':'application/json',
+              'Prefer':'return=minimal'
+            },
+            body:JSON.stringify(payload),
             keepalive:true
           }).catch(function(){});
         }catch(e){}
       }
 
       if(source==='tiktok' && !isTikTok && flowId){
-        pixel('tiktok_browser',flowId);
+        track('tiktok_browser',flowId);
       }
 
       button.addEventListener('click',function(){
-        if(source==='tiktok' && flowId) pixel('tiktok',flowId);
-        else amiciTrack();
+        if(source==='tiktok' && flowId){
+          track('tiktok',flowId);
+        }else{
+          track('amici',null);
+        }
       });
     })();
   </script>
