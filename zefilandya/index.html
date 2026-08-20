@@ -128,11 +128,13 @@
       var source=params.get('v') === '20260820' ? 'tiktok' : 'amici';
       var target='/zefilandya/download-compact-20260819.html?cb=' + Date.now() + '&src=' + source;
 
-      function trackOnce(eventSource,storageKey){
+      function trackRecent(eventSource,storageKey,windowMs){
+        var now=Date.now();
         var canStore=true;
         try{
-          if(sessionStorage.getItem(storageKey)==='1') return;
-          sessionStorage.setItem(storageKey,'1');
+          var previous=parseInt(localStorage.getItem(storageKey)||'0',10)||0;
+          if(now-previous < windowMs) return;
+          localStorage.setItem(storageKey,String(now));
         }catch(e){ canStore=false; }
 
         try{
@@ -146,16 +148,16 @@
             body:JSON.stringify({source:eventSource}),
             keepalive:true
           }).catch(function(){
-            if(canStore){ try{ sessionStorage.removeItem(storageKey); }catch(e){} }
+            if(canStore){ try{ localStorage.removeItem(storageKey); }catch(e){} }
           });
         }catch(e){
-          if(canStore){ try{ sessionStorage.removeItem(storageKey); }catch(err){} }
+          if(canStore){ try{ localStorage.removeItem(storageKey); }catch(err){} }
         }
       }
 
       if(isTikTok){
         if(source==='tiktok'){
-          trackOnce('tiktok_link','zefi_tiktok_link_counted');
+          trackRecent('tiktok_link','zefi_tiktok_link_last',10000);
         }
         try{ history.replaceState(null,'',target); }catch(e){}
       }else{
