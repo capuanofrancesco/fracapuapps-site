@@ -145,6 +145,11 @@
       var button=document.getElementById('play-store-button');
       if(!button) return;
 
+      var allowed={tiktok:true,scuola:true,amici:true,sito:true,direct:true,test:true};
+      var params=new URLSearchParams(window.location.search);
+      var source=(params.get('src')||'direct').toLowerCase();
+      if(!allowed[source]) source='direct';
+
       button.addEventListener('click',function(){
         try{
           fetch('https://wylttxfpmlakfdbpulxd.supabase.co/rest/v1/zefilandya_play_clicks',{
@@ -154,7 +159,7 @@
               'Content-Type':'application/json',
               'Prefer':'return=minimal'
             },
-            body:'{}',
+            body:JSON.stringify({source:source}),
             keepalive:true
           }).catch(function(){});
         }catch(e){}
