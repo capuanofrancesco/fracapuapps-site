@@ -147,8 +147,13 @@
 
       var params=new URLSearchParams(window.location.search);
       var source=(params.get('src')||'').toLowerCase()==='tiktok' ? 'tiktok' : 'amici';
+      var ua=(navigator.userAgent||'').toLowerCase();
+      var isTikTok = ua.indexOf('tiktok') !== -1 ||
+                     ua.indexOf('musical_ly') !== -1 ||
+                     ua.indexOf('bytedance') !== -1 ||
+                     ua.indexOf('aweme') !== -1;
 
-      button.addEventListener('click',function(){
+      function track(eventSource){
         try{
           fetch('https://wylttxfpmlakfdbpulxd.supabase.co/rest/v1/zefilandya_play_clicks',{
             method:'POST',
@@ -157,10 +162,28 @@
               'Content-Type':'application/json',
               'Prefer':'return=minimal'
             },
-            body:JSON.stringify({source:source}),
+            body:JSON.stringify({source:eventSource}),
             keepalive:true
           }).catch(function(){});
         }catch(e){}
+      }
+
+      if(source==='tiktok' && !isTikTok){
+        var alreadyCounted=false;
+        try{
+          alreadyCounted=sessionStorage.getItem('zefi_tiktok_browser_counted')==='1';
+          if(!alreadyCounted){
+            sessionStorage.setItem('zefi_tiktok_browser_counted','1');
+          }
+        }catch(e){}
+
+        if(!alreadyCounted){
+          track('tiktok_browser');
+        }
+      }
+
+      button.addEventListener('click',function(){
+        track(source);
       });
     })();
   </script>
