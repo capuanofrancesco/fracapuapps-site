@@ -126,41 +126,66 @@
 
       var params=new URLSearchParams(window.location.search);
       var source=params.get('v') === '20260820' ? 'tiktok' : 'amici';
-      var target='/zefilandya/download-compact-20260819.html?cb=' + Date.now() + '&src=' + source;
 
-      function trackRecent(eventSource,storageKey,windowMs){
+      function makeFlowId(){
+        try{
+          if(window.crypto && crypto.getRandomValues){
+            var a=new Uint32Array(4);
+            crypto.getRandomValues(a);
+            return Date.now().toString(36)+'-'+Array.from(a).map(function(n){return n.toString(36);}).join('-');
+          }
+        }catch(e){}
+        return Date.now().toString(36)+'-'+Math.random().toString(36).slice(2)+'-'+Math.random().toString(36).slice(2);
+      }
+
+      function getFlowId(){
         var now=Date.now();
-        var canStore=true;
+        var flow='';
         try{
-          var previous=parseInt(localStorage.getItem(storageKey)||'0',10)||0;
-          if(now-previous < windowMs) return;
-          localStorage.setItem(storageKey,String(now));
-        }catch(e){ canStore=false; }
+          var last=parseInt(localStorage.getItem('zefi_tiktok_flow_at')||'0',10)||0;
+          flow=localStorage.getItem('zefi_tiktok_flow_id')||'';
+          if(flow && now-last < 10000) return flow;
+          flow=makeFlowId();
+          localStorage.setItem('zefi_tiktok_flow_id',flow);
+          localStorage.setItem('zefi_tiktok_flow_at',String(now));
+          return flow;
+        }catch(e){
+          try{
+            flow=sessionStorage.getItem('zefi_tiktok_flow_id')||'';
+            if(flow) return flow;
+            flow=makeFlowId();
+            sessionStorage.setItem('zefi_tiktok_flow_id',flow);
+            return flow;
+          }catch(err){
+            return makeFlowId();
+          }
+        }
+      }
 
+      function track(eventSource,flowId){
+        var payload={source:eventSource};
+        if(flowId) payload.flow_id=flowId;
         try{
-          fetch('https://wylttxfpmlakfdbpulxd.supabase.co/rest/v1/zefilandya_play_clicks',{
+          fetch('https://wylttxfpmlakfdbpulxd.supabase.co/rest/v1/zefilandya_play_clicks?on_conflict=source,flow_id',{
             method:'POST',
             headers:{
               'apikey':'sb_publishable_KNbQ8LNvaUsZO1sZfhSARw_z_8-Do5T',
               'Content-Type':'application/json',
-              'Prefer':'return=minimal'
+              'Prefer':'resolution=ignore-duplicates,return=minimal'
             },
-            body:JSON.stringify({source:eventSource}),
+            body:JSON.stringify(payload),
             keepalive:true
-          }).catch(function(){
-            if(canStore){ try{ localStorage.removeItem(storageKey); }catch(e){} }
-          });
-        }catch(e){
-          if(canStore){ try{ localStorage.removeItem(storageKey); }catch(err){} }
-        }
+          }).catch(function(){});
+        }catch(e){}
       }
 
       if(isTikTok){
-        if(source==='tiktok'){
-          trackRecent('tiktok_link','zefi_tiktok_link_last',10000);
-        }
+        var flowId=source==='tiktok' ? getFlowId() : '';
+        if(source==='tiktok') track('tiktok_link',flowId);
+        var target='/zefilandya/download-compact-20260819.html?cb=' + Date.now() + '&src=' + source + (flowId ? '&fid=' + encodeURIComponent(flowId) : '');
         try{ history.replaceState(null,'',target); }catch(e){}
       }else{
+        var target='/zefilandya/download-compact-20260819.html?cb=' + Date.now() + '&src=' + source;
         window.location.replace(target);
       }
     })();
