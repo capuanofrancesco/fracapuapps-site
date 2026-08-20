@@ -168,18 +168,35 @@
         }catch(e){}
       }
 
-      if(source==='tiktok' && !isTikTok){
-        var alreadyCounted=false;
+      function trackRecent(eventSource,storageKey,windowMs){
+        var now=Date.now();
+        var canStore=true;
         try{
-          alreadyCounted=sessionStorage.getItem('zefi_tiktok_browser_counted')==='1';
-          if(!alreadyCounted){
-            sessionStorage.setItem('zefi_tiktok_browser_counted','1');
-          }
-        }catch(e){}
+          var previous=parseInt(localStorage.getItem(storageKey)||'0',10)||0;
+          if(now-previous < windowMs) return;
+          localStorage.setItem(storageKey,String(now));
+        }catch(e){ canStore=false; }
 
-        if(!alreadyCounted){
-          track('tiktok_browser');
+        try{
+          fetch('https://wylttxfpmlakfdbpulxd.supabase.co/rest/v1/zefilandya_play_clicks',{
+            method:'POST',
+            headers:{
+              'apikey':'sb_publishable_KNbQ8LNvaUsZO1sZfhSARw_z_8-Do5T',
+              'Content-Type':'application/json',
+              'Prefer':'return=minimal'
+            },
+            body:JSON.stringify({source:eventSource}),
+            keepalive:true
+          }).catch(function(){
+            if(canStore){ try{ localStorage.removeItem(storageKey); }catch(e){} }
+          });
+        }catch(e){
+          if(canStore){ try{ localStorage.removeItem(storageKey); }catch(err){} }
         }
+      }
+
+      if(source==='tiktok' && !isTikTok){
+        trackRecent('tiktok_browser','zefi_tiktok_browser_last',10000);
       }
 
       button.addEventListener('click',function(){
