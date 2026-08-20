@@ -145,10 +145,8 @@
       var button=document.getElementById('play-store-button');
       if(!button) return;
 
-      var allowed={tiktok:true,scuola:true,amici:true,sito:true,direct:true,test:true};
       var params=new URLSearchParams(window.location.search);
-      var source=(params.get('src')||'direct').toLowerCase();
-      if(!allowed[source]) source='direct';
+      var source=(params.get('src')||'').toLowerCase()==='tiktok' ? 'tiktok' : 'amici';
 
       button.addEventListener('click',function(){
         try{
