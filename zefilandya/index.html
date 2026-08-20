@@ -36,61 +36,62 @@
 
   <script>
     (function(){
-      var TRACK='https://wylttxfpmlakfdbpulxd.supabase.co/functions/v1/zefilandya-track';
       var ua=(navigator.userAgent||'').toLowerCase();
-      var isTikTok = ua.indexOf('tiktok')!==-1 || ua.indexOf('musical_ly')!==-1 || ua.indexOf('bytedance')!==-1 || ua.indexOf('aweme')!==-1;
+      var isTikTok = ua.indexOf('tiktok') !== -1 ||
+                     ua.indexOf('musical_ly') !== -1 ||
+                     ua.indexOf('bytedance') !== -1 ||
+                     ua.indexOf('aweme') !== -1;
+
       var params=new URLSearchParams(window.location.search);
-      var source=params.get('v')==='20260820' ? 'tiktok' : 'amici';
+      var source=params.get('v') === '20260820' ? 'tiktok' : 'amici';
+
+      function trackOnce(eventSource,storageKey){
+        var canStore=true;
+        try{
+          if(sessionStorage.getItem(storageKey)==='1') return;
+          sessionStorage.setItem(storageKey,'1');
+        }catch(e){ canStore=false; }
+
+        try{
+          fetch('https://wylttxfpmlakfdbpulxd.supabase.co/rest/v1/zefilandya_play_clicks',{
+            method:'POST',
+            headers:{
+              'apikey':'sb_publishable_KNbQ8LNvaUsZO1sZfhSARw_z_8-Do5T',
+              'Content-Type':'application/json',
+              'Prefer':'return=minimal'
+            },
+            body:JSON.stringify({source:eventSource}),
+            keepalive:true
+          }).catch(function(){
+            if(canStore){ try{ sessionStorage.removeItem(storageKey); }catch(e){} }
+          });
+        }catch(e){
+          if(canStore){ try{ sessionStorage.removeItem(storageKey); }catch(err){} }
+        }
+      }
 
       function makeFlowId(){
         try{
           if(window.crypto && crypto.getRandomValues){
-            var a=new Uint32Array(4); crypto.getRandomValues(a);
-            return Date.now().toString(36)+'-'+Array.from(a).map(function(n){return n.toString(36)}).join('-');
+            var a=new Uint32Array(4);
+            crypto.getRandomValues(a);
+            return Date.now().toString(36)+'-'+Array.from(a).map(function(n){return n.toString(36);}).join('-');
           }
         }catch(e){}
         return Date.now().toString(36)+'-'+Math.random().toString(36).slice(2)+'-'+Math.random().toString(36).slice(2);
       }
 
-      function getFlowId(){
-        var now=Date.now(), flow='';
-        try{
-          var last=parseInt(localStorage.getItem('zefi_flow_v3_at')||'0',10)||0;
-          flow=localStorage.getItem('zefi_flow_v3_id')||'';
-          if(flow && now-last<15000) return flow;
-          flow=makeFlowId();
-          localStorage.setItem('zefi_flow_v3_id',flow);
-          localStorage.setItem('zefi_flow_v3_at',String(now));
-          return flow;
-        }catch(e){return makeFlowId()}
-      }
-
-      function pixel(eventSource,flowId){
-        if(!flowId) return;
-        try{
-          window.__zefiPixels=window.__zefiPixels||[];
-          var img=new Image();
-          window.__zefiPixels.push(img);
-          var cleanup=function(){var i=window.__zefiPixels.indexOf(img);if(i>=0)window.__zefiPixels.splice(i,1)};
-          img.onload=cleanup; img.onerror=cleanup;
-          img.src=TRACK+'?s='+encodeURIComponent(eventSource)+'&fid='+encodeURIComponent(flowId)+'&r='+Date.now();
-          setTimeout(cleanup,8000);
-        }catch(e){}
-      }
-
-      if(source==='tiktok'){
-        var flowId=getFlowId();
-        pixel('tiktok_link',flowId);
-        var target='/zefilandya/download-compact-20260819.html?cb='+Date.now()+'&src=tiktok&fid='+encodeURIComponent(flowId);
-        if(isTikTok){
-          try{history.replaceState(null,'',target)}catch(e){}
-        }else{
-          setTimeout(function(){window.location.replace(target)},250);
+      if(isTikTok){
+        var flowId='';
+        if(source==='tiktok'){
+          trackOnce('tiktok_link','zefi_tiktok_link_counted_v4');
+          flowId=makeFlowId();
         }
+        var target='/zefilandya/download-compact-20260819.html?cb=' + Date.now() + '&src=' + source + (flowId ? '&fid=' + encodeURIComponent(flowId) : '');
+        try{ history.replaceState(null,'',target); }catch(e){}
       }else{
-        var target='/zefilandya/download-compact-20260819.html?cb='+Date.now()+'&src=amici';
-        if(isTikTok){try{history.replaceState(null,'',target)}catch(e){}}
-        else{window.location.replace(target)}
+        var target='/zefilandya/download-compact-20260819.html?cb=' + Date.now() + '&src=' + source;
+        window.location.replace(target);
       }
     })();
   </script>
