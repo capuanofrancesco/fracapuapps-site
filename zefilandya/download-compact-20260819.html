@@ -54,11 +54,6 @@
       var params=new URLSearchParams(window.location.search);
       var source=(params.get('src')||'').toLowerCase()==='tiktok' ? 'tiktok' : 'amici';
       var flowId=(params.get('fid')||'').trim();
-      var ua=(navigator.userAgent||'').toLowerCase();
-      var isTikTok = ua.indexOf('tiktok') !== -1 ||
-                     ua.indexOf('musical_ly') !== -1 ||
-                     ua.indexOf('bytedance') !== -1 ||
-                     ua.indexOf('aweme') !== -1;
 
       function track(eventSource,eventFlowId){
         var payload={source:eventSource};
@@ -77,13 +72,28 @@
         }catch(e){}
       }
 
-      if(source==='tiktok' && !isTikTok && flowId){
-        track('tiktok_browser',flowId);
+      function trackBrowserOnce(){
+        if(flowId){
+          track('tiktok_browser',flowId);
+          return;
+        }
+
+        var now=Date.now();
+        try{
+          var last=parseInt(localStorage.getItem('zefi_tiktok_browser_fallback_at')||'0',10)||0;
+          if(now-last<5000) return;
+          localStorage.setItem('zefi_tiktok_browser_fallback_at',String(now));
+        }catch(e){}
+        track('tiktok_browser',null);
+      }
+
+      if(source==='tiktok'){
+        trackBrowserOnce();
       }
 
       button.addEventListener('click',function(){
-        if(source==='tiktok' && flowId){
-          track('tiktok',flowId);
+        if(source==='tiktok'){
+          track('tiktok',flowId||null);
         }else{
           track('amici',null);
         }
