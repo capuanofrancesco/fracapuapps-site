@@ -116,7 +116,7 @@
     <h1>Zefilandya<br>Academy</h1>
     <p class="subtitle">Gratis su Google Play</p>
 
-    <a class="play-card" href="https://play.google.com/store/apps/details?id=com.capuanofra81.sofiaacademy" aria-label="Apri Zefilandya Academy su Google Play">
+    <a id="play-store-button" class="play-card" href="https://play.google.com/store/apps/details?id=com.capuanofra81.sofiaacademy" aria-label="Apri Zefilandya Academy su Google Play">
       <div class="play-row">
         <svg class="play-logo" viewBox="0 0 64 64" aria-hidden="true">
           <defs>
@@ -139,5 +139,27 @@
 
     <p class="hint">Tocca il pulsante per aprire direttamente la scheda dell'app.</p>
   </main>
+
+  <script>
+    (function(){
+      var button=document.getElementById('play-store-button');
+      if(!button) return;
+
+      button.addEventListener('click',function(){
+        try{
+          fetch('https://wylttxfpmlakfdbpulxd.supabase.co/rest/v1/zefilandya_play_clicks',{
+            method:'POST',
+            headers:{
+              'apikey':'sb_publishable_KNbQ8LNvaUsZO1sZfhSARw_z_8-Do5T',
+              'Content-Type':'application/json',
+              'Prefer':'return=minimal'
+            },
+            body:'{}',
+            keepalive:true
+          }).catch(function(){});
+        }catch(e){}
+      });
+    })();
+  </script>
 </body>
 </html>
