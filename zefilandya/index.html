@@ -123,7 +123,14 @@
                      ua.indexOf('musical_ly') !== -1 ||
                      ua.indexOf('bytedance') !== -1 ||
                      ua.indexOf('aweme') !== -1;
-      var target='/zefilandya/download-compact-20260819.html?v=' + Date.now();
+
+      var allowed={tiktok:true,scuola:true,amici:true,sito:true,direct:true,test:true};
+      var params=new URLSearchParams(window.location.search);
+      var source=(params.get('src')||'').toLowerCase();
+      if(!allowed[source]) source='';
+      if(!source) source=isTikTok ? 'tiktok' : 'direct';
+
+      var target='/zefilandya/download-compact-20260819.html?v=' + Date.now() + '&src=' + encodeURIComponent(source);
 
       if(isTikTok){
         try{ history.replaceState(null,'',target); }catch(e){}
